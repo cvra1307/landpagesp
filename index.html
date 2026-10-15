@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Cão Lanches</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul: #071a35;
+            --azul-claro: #0d315c;
+            --amarelo: #ffd21c;
+            --vermelho: #e63946;
+            --branco: #ffffff;
+            --cinza: #dce5ef;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 115px;
+        }
+
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            background-color: var(--azul);
+            color: var(--branco);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(
+                90deg,
+                var(--vermelho),
+                var(--amarelo),
+                var(--vermelho)
+            );
+            z-index: 10000;
+        }
+
+        /* BARRA SUPERIOR FIXA COM A LOGO */
+
+        header {
+            position: fixed;
+            top: 5px;
+            left: 0;
+            width: 100%;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background: rgba(7, 26, 53, 0.98);
+            border-bottom: 2px solid var(--amarelo);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            z-index: 9999;
+        }
+
+        .header-content {
+            width: 100%;
+            max-width: 1150px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        .header-logo {
+            display: block;
+            width: 68px;
+            height: 62px;
+            flex: 0 0 68px;
+            padding: 4px;
+            background: #ffffff;
+            border: 2px solid var(--amarelo);
+            border-radius: 12px;
+            object-fit: contain;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header-content h1 {
+            font-size: clamp(24px, 3vw, 36px);
+            color: var(--amarelo);
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 var(--vermelho);
+            margin-bottom: 2px;
+        }
+
+        .header-content p {
+            color: var(--cinza);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+
+        main {
+            max-width: 1150px;
+            margin: auto;
+            padding: 135px 20px 70px;
+        }
+
+        section {
+            margin-bottom: 90px;
+            scroll-margin-top: 115px;
+        }
+
+        /* TÍTULOS DAS SEÇÕES */
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            color: var(--amarelo);
+            margin-bottom: 12px;
+        }
+
+        .section-title span {
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--vermelho);
+            margin: auto;
+            border-radius: 20px;
+        }
+
+        /* SOBRE */
+
+        .about-card {
+            background-color: var(--azul-claro);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 6px solid var(--amarelo);
+            border-radius: 18px;
+            padding: 35px;
+            max-width: 850px;
+            margin: auto;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .about-card p {
+            color: var(--cinza);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .about-card strong {
+            color: var(--amarelo);
+        }
+
+        /* LANCHES */
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 35px;
+        }
+
+        .food-card {
+            position: relative;
+            background-color: #0b2445;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+            transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--amarelo);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+        }
+
+        .food-image {
+            position: relative;
+            width: 100%;
+            height: 340px;
+            overflow: hidden;
+            background-color: #020b18;
+        }
+
+        .food-image::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 45%;
+            background: linear-gradient(
+                transparent,
+                rgba(0, 0, 0, 0.45)
+            );
+            pointer-events: none;
+        }
+
+        .food-image::before {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            top: 15px;
+            left: 15px;
+            width: 55px;
+            height: 5px;
+            background-color: var(--amarelo);
+            border-radius: 10px;
+        }
+
+        .food-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.6s ease, filter 0.4s ease;
+        }
+
+        .food-card:hover .food-image img {
+            transform: scale(1.06);
+            filter: brightness(1.08);
+        }
+
+        .food-info {
+            padding: 25px;
+            border-top: 4px solid var(--vermelho);
+            background-color: #0b2445;
+        }
+
+        .food-info h3 {
+            font-size: 27px;
+            color: var(--amarelo);
+            margin-bottom: 5px;
+        }
+
+        .food-info p {
+            color: var(--cinza);
+            font-size: 15px;
+        }
+
+        /* INFORMAÇÕES */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background-color: var(--azul-claro);
+            padding: 28px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--amarelo);
+        }
+
+        .info-card h3 {
+            color: var(--amarelo);
+            font-size: 21px;
+            margin-bottom: 12px;
+        }
+
+        .info-card p {
+            color: var(--cinza);
+            line-height: 1.7;
+        }
+
+        /* LOCALIZAÇÃO */
+
+        .location {
+            text-align: center;
+            background-color: var(--azul-claro);
+            padding: 40px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .location p {
+            color: var(--cinza);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .map-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+            padding: 14px 25px;
+            background-color: var(--vermelho);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .map-button:hover {
+            background-color: transparent;
+            border-color: var(--amarelo);
+            color: var(--amarelo);
+        }
+
+        /* REDES SOCIAIS */
+
+        .social-box {
+            position: relative;
+            text-align: center;
+            padding: 50px 25px;
+            background: linear-gradient(
+                135deg,
+                var(--vermelho),
+                #b91d2a
+            );
+            border-radius: 22px;
+            border: 2px solid var(--amarelo);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .social-box::before {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            transform: rotate(45deg);
+            left: -130px;
+            top: -120px;
+        }
+
+        .social-box h2 {
+            position: relative;
+            color: var(--amarelo);
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .social-box p {
+            position: relative;
+            margin-bottom: 30px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .social-links {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .social-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 230px;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            transition: 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .social-button i {
+            font-size: 25px;
+        }
+
+        .instagram-button {
+            background: linear-gradient(
+                45deg,
+                #feda75,
+                #fa7e1e,
+                #d62976,
+                #962fbf,
+                #4f5bd5
+            );
+        }
+
+        .whatsapp-button {
+            background-color: #25D366;
+        }
+
+        .social-button:hover {
+            transform: translateY(-5px) scale(1.03);
+            border-color: white;
+        }
+
+        /* RODAPÉ */
+
+        footer {
+            background-color: #040d1b;
+            text-align: center;
+            padding: 35px 20px;
+            border-top: 2px solid var(--amarelo);
+        }
+
+        footer strong {
+            color: var(--amarelo);
+            font-size: 20px;
+        }
+
+        footer p {
+            color: #9fb0c4;
+            margin-top: 8px;
+        }
+
+        /* AJUSTES PARA CELULAR */
+
+        @media (max-width: 750px) {
+            header {
+                min-height: 78px;
+                padding: 8px 12px;
+            }
+
+            .header-content {
+                gap: 10px;
+            }
+
+            .header-logo {
+                width: 54px;
+                height: 50px;
+                flex-basis: 54px;
+            }
+
+            .header-content h1 {
+                font-size: 23px;
+                letter-spacing: 1px;
+            }
+
+            .header-content p {
+                font-size: 11px;
+            }
+
+            main {
+                padding: 115px 15px 50px;
+            }
+
+            section {
+                margin-bottom: 65px;
+            }
+
+            .food-grid,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .food-image {
+                height: 280px;
+            }
+
+            .about-card {
+                padding: 25px 20px;
+            }
+
+            .section-title h2 {
+                font-size: 30px;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .social-button {
+                width: 100%;
+                max-width: 320px;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .header-content h1 {
+                font-size: 21px;
+                letter-spacing: 1px;
+            }
+
+            .header-content p {
+                font-size: 10px;
+            }
+
+            .header-logo {
+                width: 48px;
+                height: 46px;
+                flex-basis: 48px;
+            }
+
+            .food-image {
+                height: 250px;
+            }
+
+            .food-info h3 {
+                font-size: 24px;
+            }
+
+            .social-box h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <img
+                class="header-logo"
+                src="supercao.jpg"
+                alt="Logo Super Cão Lanches"
+            >
+
+            <div class="header-text">
+                <h1>SUPER CÃO</h1>
+                <p>Lanches, sabor e aquele cachorro-quente que você merece.</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <section id="sobre">
+            <div class="section-title">
+                <h2>Sobre o Super Cão</h2>
+                <span></span>
+            </div>
+
+            <div class="about-card">
+                <p>
+                    O <strong>Super Cão</strong> é uma lanchonete localizada em
+                    Palhoça - Santa Catarina, especializada em cachorro-quente
+                    e outros lanches.
+                </p>
+
+                <p style="margin-top: 15px;">
+                    Um lugar para aproveitar seu lanche, seja no local,
+                    retirando ou recebendo em casa.
+                </p>
+            </div>
+        </section>
+
+        <section id="lanches">
+            <div class="section-title">
+                <h2>Nossos Lanches</h2>
+                <span></span>
+            </div>
+
+            <div class="food-grid">
+
+                <div class="food-card">
+                    <div class="food-image">
+                        <img
+                            src="lanhe.png"
+                            alt="X-Salada"
+                        >
+                    </div>
+
+                    <div class="food-info">
+                        <h3>X-Salada</h3>
+                        <p>Um dos clássicos do Super Cão.</p>
+                    </div>
+                </div>
+
+                <div class="food-card">
+                    <div class="food-image">
+                        <img
+                            src="cachorroquente.jpeg"
+                            alt="Cachorro-quente"
+                        >
+                    </div>
+
+                    <div class="food-info">
+                        <h3>Cachorro-quente</h3>
+                        <p>O clássico que dá nome ao Super Cão.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="informacoes">
+            <div class="section-title">
+                <h2>Informações</h2>
+                <span></span>
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-card">
+                    <h3>📍 Endereço</h3>
+                    <p>
+                        Avenida Paulo Roberto Vidal, 881<br>
+                        Caminho Novo / Bela Vista<br>
+                        Palhoça - SC<br>
+                        CEP 88132-599
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h3>📞 Contato</h3>
+                    <p>
+                        <a href="tel:+5548984382748" style="color: inherit; text-decoration: none;">
+                            (48) 98438-2748
+                        </a>
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🕐 Horário</h3>
+                    <p>
+                        Terça a domingo: 19h às 00h<br>
+                        Segunda-feira: fechado
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🍔 Serviços</h3>
+                    <p>
+                        Consumo no local<br>
+                        Retirada / para levar<br>
+                        Entrega<br>
+                        Mesas ao ar livre
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="localizacao">
+            <div class="section-title">
+                <h2>Onde estamos</h2>
+                <span></span>
+            </div>
+
+            <div class="location">
+                <p>
+                    Avenida Paulo Roberto Vidal, 881<br>
+                    Palhoça - Santa Catarina
+                </p>
+
+                <a
+                    class="map-button"
+                    href="https://www.google.com/maps/search/?api=1&query=Avenida+Paulo+Roberto+Vidal+881+Palho%C3%A7a+SC"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fa-solid fa-location-dot"></i>
+                    Ver no Google Maps
+                </a>
+            </div>
+        </section>
+
+        <section id="contato">
+            <div class="social-box">
+                <h2>Fale com o Super Cão</h2>
+
+                <p>
+                    Acompanhe nossas novidades ou peça seu lanche.
+                </p>
+
+                <div class="social-links">
+                    <a
+                        class="social-button instagram-button"
+                        href="https://www.instagram.com/supercao_lanches/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <i class="fa-brands fa-instagram"></i>
+                        @supercao_lanches
+                    </a>
+
+                    <a
+                        class="social-button whatsapp-button"
+                        href="https://wa.me/5548984382748"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><strong>SUPER CÃO LANCHES</strong></p>
+        <p>Palhoça - Santa Catarina</p>
+        <p>© 2026 Super Cão - Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
